@@ -7,120 +7,25 @@
 		<link rel="stylesheet" href="style.css" />
 	</head>
 	<body>
+		<header class="todo-app__header"></header>
 		<div class="todo-app">
-			<div class="todo-item">
-				<div class="todo-item__title">
-					<p class="todo-item__title-text">Plans</p>
-					<button class="todo-item__delete-item-btn">
-						<img src="img/trash.svg" alt="" />
-					</button>
-				</div>
-				<ul class="todo-item__list">
-					<li class="todo-item__list-item">
-						<p class="todo-item__list-item-text">Lorem ipsum dolor sit amet</p>
-						<div class="list-item__actions">
-							<button class="list-item__action list-item__action--complete">
-								<img src="img/complete-icon.svg" alt="" />
-							</button>
-							<button class="list-item__action list-item__action--delete">
-								<img src="img/delete-icon.svg" alt="" />
-							</button>
-						</div>
-					</li>
-				</ul>
-				<div class="todo-item__add-item">
-					<p class="todo-item__add-item-btn-text">Add Item</p>
-					<img class="todo-item__add-item-icon" src="img/plus.svg" alt="" />
-				</div>
-			</div>
-			<div class="todo-item">
-				<div class="todo-item__title">
-					<p class="todo-item__title-text">Plans</p>
-					<button class="todo-item__delete-item-btn">
-						<img src="img/trash.svg" alt="" />
-					</button>
-				</div>
-				<ul class="todo-item__list">
-					<li class="todo-item__list-item">
-						<p class="todo-item__list-item-text">Lorem, ipsum.</p>
-						<div class="list-item__actions">
-							<button class="list-item__action list-item__action--complete">
-								<img src="img/complete-icon.svg" alt="" />
-							</button>
-							<button class="list-item__action list-item__action--delete">
-								<img src="img/delete-icon.svg" alt="" />
-							</button>
-						</div>
-					</li>
-					<li class="todo-item__list-item">
-						<p class="todo-item__list-item-text">Lorem, ipsum.</p>
-						<div class="list-item__actions">
-							<button class="list-item__action list-item__action--complete">
-								<img src="img/complete-icon.svg" alt="" />
-							</button>
-							<button class="list-item__action list-item__action--delete">
-								<img src="img/delete-icon.svg" alt="" />
-							</button>
-						</div>
-					</li>
-					<li class="todo-item__list-item">
-						<p class="todo-item__list-item-text">Lorem, ipsum.</p>
-						<div class="list-item__actions">
-							<button class="list-item__action list-item__action--complete">
-								<img src="img/complete-icon.svg" alt="" />
-							</button>
-							<button class="list-item__action list-item__action--delete">
-								<img src="img/delete-icon.svg" alt="" />
-							</button>
-						</div>
-					</li>
-				</ul>
-				<div class="todo-item__add-item">
-					<p class="todo-item__add-item-btn-text">Add Item</p>
-					<img class="todo-item__add-item-icon" src="img/plus.svg" alt="" />
-				</div>
-			</div>
-			<div class="todo-item">
-				<div class="todo-item__title">
-					<p class="todo-item__title-text">Plans</p>
-					<button class="todo-item__delete-item-btn">
-						<img src="img/trash.svg" alt="" />
-					</button>
-				</div>
-				<ul class="todo-item__list">
-					<li class="todo-item__list-item">
-						<p class="todo-item__list-item-text">
-							Lorem ipsum dolor sit amet consectetur.
-						</p>
-						<div class="list-item__actions">
-							<button class="list-item__action list-item__action--complete">
-								<img src="img/complete-icon.svg" alt="" />
-							</button>
-							<button class="list-item__action list-item__action--delete">
-								<img src="img/delete-icon.svg" alt="" />
-							</button>
-						</div>
-					</li>
-					<li class="todo-item__list-item">
-						<p class="todo-item__list-item-text">
-							Lorem ipsum dolor sit amet consectetur.
-						</p>
-						<div class="list-item__actions">
-							<button class="list-item__action list-item__action--complete">
-								<img src="img/complete-icon.svg" alt="" />
-							</button>
-							<button class="list-item__action list-item__action--delete">
-								<img src="img/delete-icon.svg" alt="" />
-							</button>
-						</div>
-					</li>
-				</ul>
-				<div class="todo-item__add-item">
-					<p class="todo-item__add-item-btn-text">Add Item</p>
-					<img class="todo-item__add-item-icon" src="img/plus.svg" alt="" />
+			<div class="add-todo-list">
+				<p class="add-todo-list__btn-text">Add List</p>
+				<img class="add-todo-list__icon" src="img/plus.svg" alt="" />
+				<div class="add-todo-list__window">
+					<input
+						type="text"
+						required
+						placeholder="Input list name"
+						class="add-todo-list__input" />
 				</div>
 			</div>
 		</div>
-		<script src="index.js"></script>
+		<footer class="todo-app__footer">
+			<p class="todo-app__footer-text">
+				By Oleksandr with <span class="heart">❤️</span>
+			</p>
+		</footer>
+		<script src="swapItems.js"></script>
 	</body>
 </html>
