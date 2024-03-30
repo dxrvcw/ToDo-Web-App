@@ -97,6 +97,10 @@ img {
 	font-size: 16px;
 	font-weight: 400;
 	max-width: 60%;
+
+	&.completed {
+		text-decoration: line-through;
+	}
 }
 
 .todo-list__add-item {
