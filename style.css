@@ -1,0 +1,113 @@
+*,
+*::after,
+*::before {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+:root {
+	font-family: "Inter", sans-serif;
+}
+body {
+	background-color: rgb(104, 108, 108);
+}
+
+ul {
+	list-style: none;
+}
+
+img {
+	width: 100%;
+	display: block;
+}
+
+.todo-app {
+	width: 100%;
+	display: flex;
+	gap: 10px;
+	margin: 30px;
+}
+
+.todo-item {
+	width: 300px;
+	background-color: rgb(39, 42, 42);
+	border-radius: 10px;
+	transform: translate(0, 0);
+	transition: all 0.1s;
+	color: white;
+	padding: 20px 15px;
+	height: fit-content;
+}
+
+.todo-item button {
+	background: white;
+	border: 1px solid white;
+	border-radius: 8px;
+	cursor: pointer;
+	padding: 2px;
+	width: 26px;
+	height: 26px;
+}
+
+.todo-item.active {
+	opacity: 0.4;
+}
+
+.ghost {
+	position: absolute;
+	pointer-events: none;
+	transition: none;
+	z-index: 100;
+	opacity: 0;
+}
+
+.todo-item__title {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.todo-item__title-text {
+	font-size: 20px;
+	font-weight: 600;
+}
+
+.todo-item__list {
+	margin-top: 20px;
+}
+
+.todo-item__list-item {
+	margin-top: 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 10px;
+}
+
+.todo-item__list-item button {
+	width: 24px;
+	height: 24px;
+}
+
+.todo-item__list-item-text {
+	font-size: 16px;
+	font-weight: 400;
+	max-width: 60%;
+}
+
+.todo-item__add-item {
+	margin-top: 30px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: rgb(68, 73, 73);
+	padding: 5px 15px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.todo-item__add-item-icon {
+	width: 20px;
+	height: 20px;
+}
