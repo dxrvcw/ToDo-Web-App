@@ -43,7 +43,6 @@ function toggleAddTodoItemWindow(e) {
 		".todo-list__add-item-window"
 	);
 	if ([...e.target.classList].includes("todo-list__add-item")) {
-		console.log(e.target);
 		addTodoItemWindows.forEach((window) => {
 			if (window.id === e.target.parentNode.id) {
 				window.classList.toggle("active");
@@ -110,9 +109,15 @@ function generateListItems(id) {
 	let html = "";
 	const list = todoLists.find((list) => list.id === id);
 	if (list) {
-		list.items.forEach((listItem) => {
-			html += generateListItemHTML(listItem);
-		});
+		list.items
+			.sort((a, b) => {
+				if (a.completed && !b.completed) return 1;
+				if (!a.completed && b.completed) return -1;
+				return 0;
+			})
+			.forEach((listItem) => {
+				html += generateListItemHTML(listItem);
+			});
 	}
 	return html;
 }
@@ -198,6 +203,67 @@ function deleteListItem(id) {
 	updateTodoList();
 }
 
+function editListItem(listItemId, newText) {}
+
 function generateID() {
 	return Date.now();
+}
+
+// Swap Items
+
+let grabId = null;
+let ghost = null;
+let active = null;
+
+document.addEventListener("mousedown", (e) => {
+	if (e.target.classList.contains("todo-list")) {
+		e.preventDefault();
+
+		grabId = e.target.id;
+
+		// Ghost
+		ghost = e.target.cloneNode(true);
+		ghost.classList.add("ghost");
+		active = e.target;
+		active.classList.add("active");
+		document.querySelector("body").appendChild(ghost);
+		ghost.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+	}
+});
+
+// Ghost
+document.addEventListener("mousemove", (e) => {
+	if (ghost) {
+		ghost.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+	}
+});
+
+document.addEventListener("mouseup", (e) => {
+	if (active) {
+		active.classList.remove("active");
+		active = null;
+	}
+	if (e.target.closest(".todo-list") && grabId) {
+		swapLists(+grabId, +e.target.closest(".todo-list").id);
+		grabId = null;
+	}
+	// Ghost
+	if (ghost) {
+		document.querySelector("body").removeChild(ghost);
+		ghost = null;
+	}
+});
+
+function swapLists(firstId, secondId) {
+	let firstIndex = todoLists.findIndex((item) => item.id === firstId);
+	let secondIndex = todoLists.findIndex((item) => item.id === secondId);
+
+	if (firstIndex === -1 || secondIndex === -1) {
+		return;
+	}
+
+	todoLists.splice(secondIndex, 0, todoLists.splice(firstIndex, 1)[0]);
+
+	localStorage.setItem("todo", JSON.stringify(todoLists));
+	updateTodoList();
 }
