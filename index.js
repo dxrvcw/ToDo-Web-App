@@ -123,7 +123,7 @@ function generateListItems(id) {
 }
 
 function generateListItemHTML(listItem) {
-	return `<li class="todo-item__list-item">
+	return `<li class="todo-item__list-item" id="${listItem.id}">
     <p class="todo-item__list-item-text ${
 			listItem.completed ? "completed" : ""
 		}">${listItem.text}</p>
@@ -209,11 +209,12 @@ function generateID() {
 	return Date.now();
 }
 
-// Swap Items
+// Swap Lists
 
 let grabId = null;
 let ghost = null;
 let active = null;
+let hovering = null;
 
 document.addEventListener("mousedown", (e) => {
 	if (e.target.classList.contains("todo-list")) {
@@ -227,14 +228,42 @@ document.addEventListener("mousedown", (e) => {
 		active = e.target;
 		active.classList.add("active");
 		document.querySelector("body").appendChild(ghost);
-		ghost.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+		const boundingRect = ghost.getBoundingClientRect();
+		ghost.style.transform = `translate(${
+			e.clientX - boundingRect.width / 2
+		}px, ${e.clientY}px)`;
+		ghost.style.opacity = "0.5";
 	}
 });
 
 // Ghost
 document.addEventListener("mousemove", (e) => {
 	if (ghost) {
-		ghost.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+		const boundingRect = ghost.getBoundingClientRect();
+		ghost.style.transform = `translate(${
+			e.clientX - boundingRect.width / 2
+		}px, ${e.clientY}px)`;
+		document.body.style.cursor = "grabbing";
+	} else {
+		document.body.style.cursor = "default";
+	}
+
+	const closestTodoList = e.target.closest(".todo-list");
+
+	if (
+		ghost &&
+		closestTodoList &&
+		closestTodoList !== hovering &&
+		closestTodoList !== active
+	) {
+		if (hovering) {
+			hovering.style.opacity = "1";
+		}
+		hovering = closestTodoList;
+		hovering.style.opacity = "0.5";
+	} else if (!closestTodoList && hovering) {
+		hovering.style.opacity = "1";
+		hovering = null;
 	}
 });
 
@@ -266,4 +295,70 @@ function swapLists(firstId, secondId) {
 
 	localStorage.setItem("todo", JSON.stringify(todoLists));
 	updateTodoList();
+}
+
+// Swap List Items
+
+let itemToSwap = null;
+let itemGhost = null;
+
+document.addEventListener("mousedown", (e) => {
+	if (e.target.classList.contains("todo-item__list-item")) {
+		e.preventDefault();
+		itemToSwap = e.target;
+
+		// Ghost
+		itemGhost = itemToSwap.cloneNode(true);
+		itemGhost.classList.add("ghost");
+		document.querySelector("body").appendChild(itemGhost);
+		itemGhost.style.opacity = "0.7";
+		itemGhost.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+	}
+});
+
+document.addEventListener("mousemove", (e) => {
+	if (itemGhost) {
+		itemGhost.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+	}
+});
+
+document.addEventListener("mouseup", (e) => {
+	if (e.target.closest(".todo-item__list-item") && itemToSwap) {
+		swapListItems(
+			+itemToSwap.id,
+			+e.target.closest(".todo-item__list-item").id
+		);
+	}
+	itemToSwap = null;
+
+	// Ghost
+	if (itemGhost) {
+		document.querySelector("body").removeChild(itemGhost);
+		itemGhost = null;
+	}
+});
+
+function swapListItems(firstId, secondId) {
+	let firstItem, secondItem;
+
+	todoLists.forEach((list) => {
+		list.items.forEach((item) => {
+			if (item.id === firstId) {
+				firstItem = item;
+			} else if (item.id === secondId) {
+				secondItem = item;
+			}
+		});
+	});
+
+	if (firstItem && secondItem) {
+		const temp = { ...firstItem };
+		firstItem.text = secondItem.text;
+		firstItem.completed = secondItem.completed;
+		secondItem.text = temp.text;
+		secondItem.completed = temp.completed;
+
+		localStorage.setItem("todo", JSON.stringify(todoLists));
+		updateTodoList();
+	}
 }

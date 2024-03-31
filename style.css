@@ -68,7 +68,7 @@ input:focus {
 		.todo-list__delete-item-btn {
 			opacity: 1;
 		}
-		cursor: grabbing;
+		cursor: grab;
 	}
 
 	* {
@@ -107,6 +107,11 @@ input:focus {
 	justify-content: space-between;
 	align-items: center;
 	gap: 10px;
+	padding: 5px;
+	transition: all 0.3s;
+	border-radius: 5px;
+	color: white;
+	background: rgb(39, 42, 42);
 
 	.list-item__actions {
 		opacity: 0;
@@ -117,6 +122,8 @@ input:focus {
 		.list-item__actions {
 			opacity: 1;
 		}
+		box-shadow: 5px 5px 10px rgb(0, 0, 0, 0.5);
+		cursor: move;
 	}
 }
 
@@ -256,7 +263,7 @@ input:focus {
 	position: absolute;
 	pointer-events: none;
 	opacity: 0.5;
-	transition: all 0.1s;
+	transition: translate 0.1s;
 }
 
 .active {
