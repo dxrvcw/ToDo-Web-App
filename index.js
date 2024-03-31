@@ -4,8 +4,10 @@ if (!localStorage.getItem("todo")) {
 
 let todoLists = JSON.parse(localStorage.getItem("todo"));
 let todoContainer = document.querySelector(".todo-app");
-let newListInputLabel = document.querySelector(".add-todo-list__input");
 
+let newListInputBtn = document.querySelector(".add-todo-list__btn");
+let newListInputLabel = document.querySelector(".add-todo-list__input");
+newListInputBtn.addEventListener("click", handleNewListInput);
 newListInputLabel.addEventListener("keyup", handleNewListInput);
 
 document.addEventListener("click", toggleAddTodoListWindow);
@@ -15,9 +17,12 @@ document.addEventListener("click", toggleAddTodoItemWindow);
 updateTodoList();
 
 function handleNewListInput(e) {
-	if (e.key === "Enter") {
-		newListInputLabel.classList.toggle("active");
+	if (
+		e.key === "Enter" ||
+		[...e.target.classList].includes("add-todo-list__btn")
+	) {
 		if (newListInputLabel.value.length > 0) {
+			newListInputLabel.parentElement.classList.toggle("active");
 			addTodoList(newListInputLabel.value);
 			newListInputLabel.value = "";
 		}
@@ -38,9 +43,12 @@ function toggleAddTodoItemWindow(e) {
 		".todo-list__add-item-window"
 	);
 	if ([...e.target.classList].includes("todo-list__add-item")) {
+		console.log(e.target);
 		addTodoItemWindows.forEach((window) => {
 			if (window.id === e.target.parentNode.id) {
-				window.classList.add("active");
+				window.classList.toggle("active");
+			} else {
+				window.classList.remove("active");
 			}
 		});
 	} else if (![...e.target.classList].includes("todo-list__add-item-input")) {
@@ -58,6 +66,9 @@ function updateTodoList() {
 	});
 	document.querySelectorAll(".todo-list__add-item-input").forEach((label) => {
 		label.addEventListener("keyup", handleAddItemInput);
+	});
+	document.querySelectorAll(".todo-list__add-item-btn").forEach((btn) => {
+		btn.addEventListener("click", handleAddItemInput);
 	});
 	todoContainer.appendChild(addTodoListContainer);
 }
@@ -86,6 +97,9 @@ function generateTodoListHTML(list) {
             placeholder="Input text"
             class="todo-list__add-item-input"
             id="${list.id}" />
+						<button class="todo-list__add-item-btn" id="${list.id}">
+							<img src="img/send.svg" alt="" />
+						</button>
         </div>
       </div>
     </div>
@@ -140,8 +154,11 @@ function deleteTodoList(id) {
 }
 
 function handleAddItemInput(e) {
-	if (e.key === "Enter") {
-		const label = e.target;
+	if (
+		e.key === "Enter" ||
+		[...e.target.classList].includes("todo-list__add-item-btn")
+	) {
+		const label = e.target.parentNode.querySelector("input");
 		label.parentElement.classList.toggle("active");
 		if (label.value.length > 0) {
 			addListItem(label.id, label.value);
