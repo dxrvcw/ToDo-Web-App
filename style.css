@@ -76,6 +76,10 @@ input:focus {
 	}
 }
 
+.todo-list__delete-item-btn img {
+	pointer-events: none;
+}
+
 .todo-list button {
 	background: white;
 	border: 1px solid white;

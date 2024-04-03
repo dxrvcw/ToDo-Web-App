@@ -328,7 +328,10 @@ document.addEventListener("mouseup", (e) => {
 			+itemToSwap.id,
 			+e.target.closest(".todo-item__list-item").id
 		);
+	} else if (e.target.closest(".todo-list") && itemToSwap) {
+		addItemToList(+itemToSwap.id, +e.target.closest(".todo-list").id);
 	}
+
 	itemToSwap = null;
 
 	// Ghost
@@ -337,6 +340,26 @@ document.addEventListener("mouseup", (e) => {
 		itemGhost = null;
 	}
 });
+
+function addItemToList(itemId, listId) {
+	let itemToAdd = null;
+	todoLists.forEach((list) => {
+		list.items.forEach((item) => {
+			if (item.id === itemId) {
+				itemToAdd = list.items.splice(
+					list.items.findIndex((i) => i === item),
+					1
+				)[0];
+			}
+		});
+	});
+	if (!itemToAdd) return;
+	todoLists.forEach((list) => {
+		if (list.id === listId) {
+			addListItem(list.id, itemToAdd.text);
+		}
+	});
+}
 
 function swapListItems(firstId, secondId) {
 	let firstItem, secondItem;
